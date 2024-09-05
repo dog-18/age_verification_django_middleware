@@ -19,7 +19,7 @@ class AgeVerificationMiddleware:
         if request.path.startswith("/age-proof"):
             print("age-proof detected")
             # override `urlconf` so that this app's view is called. 
-            request.urlconf = "age_verification.urls"
+            request.urlconf = "age_verification_psehack.urls"
         
         elif any(request.path.startswith(path) for path in self.age_verification_paths):
             is_token_valid = False
