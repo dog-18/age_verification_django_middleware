@@ -9,19 +9,30 @@ The user is expected to own an Android or iOS device with an **NFC reader** and 
 
 In your Django project's `settings.py`:
 
-Add the following line the bottom of the MIDDLEWARE section:
+Add the following line to the bottom of the **MIDDLEWARE** section:
 
 - "age_verification_psehack.middleware.AgeVerificationMiddleware"
 
-Add a new AGE_VERIFICATION_PATHS setting containing all paths requiring age verification:
+Add the following line to the bottom of the **INSTALLED_APPS** section:
+
+- "age_verification_psehack.apps.AgeVerificationPSEHackConfig"
+
+Add a new **AGE_VERIFICATION_PATHS** setting containing all paths requiring age verification:
 
 - AGE_VERIFICATION_PATHS = ['/protected_path1', '/protected/path2']
 
+Usually all Django projects are already configured to serve static files. If yours is not configured,
+consult https://docs.djangoproject.com/en/4.2/howto/static-files/
+
+Navigate to the root of your Django project and run:
+
+- python manage.py makemigrations age_verification_psehack
+- python manage.py migrate
+- python manage.py collectstatic
 
 
 
-
-#### For developers only: testing out local changes
+#### For developers only: testing local changes
 
 In case if you need to make changes and test them, in the root of this repo run
 

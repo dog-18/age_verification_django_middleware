@@ -3,19 +3,16 @@ import time
 from django.http import HttpResponseForbidden
 from django.http import HttpResponse
 from django.conf import settings
-from .db import TokenDB
 from .settings import COOKIE_NAME
+from .models import Token
 
 class AgeVerificationMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
         self.age_verification_paths = settings.AGE_VERIFICATION_PATHS
-        # Start the verification server.
+        # TODO: start the proof verification server.
 
     def __call__(self, request):
-        print("request is")
-        print(request)
-
         if request.path.startswith("/age-proof"):
             print("age-proof detected")
             # override `urlconf` so that this app's view is called. 
@@ -26,7 +23,10 @@ class AgeVerificationMiddleware:
 
             if COOKIE_NAME in request.COOKIES:
                 token_uuid = request.COOKIES[COOKIE_NAME]
-                token = TokenDB.get_or_none(TokenDB.uuid == token_uuid)
+                try:
+                    token = Token.objects.get(uuid=token_uuid)
+                except Token.DoesNotExist:
+                    token = None
 
                 if (token is not None) and (int(token.expiration_unixtime) > int(time.time())):
                     # The token was found in the db and it was not expired.
@@ -44,33 +44,8 @@ class AgeVerificationMiddleware:
 </head>
 <body>
     <h1>Verify your age</h1>
-    <p>QR code displayed here</p>
-    <script>
-            // Receive proof data via ws from the mobile app.
-            // POST proof data to the /age-proof endpoint
-            const data = {
-                proof: 'dummyProof',
-                data: 'dummyData'
-            };
-                                
-            fetch('"""+age_proof_endpoint+"""', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(data => {
-                console.log('Success:', data); // Handle the response data
-                // if successful, the server has set the needed cookie, so we just reload the
-                // protected page
-                location.reload()
-            })
-            .catch((error) => {
-                console.error('Error:', error); // Handle any errors
-            });
-                                
-    </script>
+    <script>var age_proof_endpoint = """+age_proof_endpoint+"""</script>
+    <script src="/static/age_verification_psehack/main.js"></script>
 </body>
 </html>
                             """)

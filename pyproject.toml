@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "age_verification_psehack"
-version = "0.2.1"
+version = "0.2.2"
 description = "A Django middleware for verifying the user's age before allowing them access to resources"
 readme = "README.md"
 license = {file = "LICENSE"}
@@ -26,8 +26,7 @@ classifiers = [
 ]
 requires-python = ">=3.8"
 dependencies = [
-    "Django>=4.2",
-    "peewee>=3.17.6"
+    "Django>=4.2"
 ]
 
 [project.urls]

@@ -7,8 +7,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseForbidden
 from django.views import View
 from .settings import COOKIE_NAME, TOKEN_LIFETIME
-from .db import TokenDB
-
+from .models import Token
 
 class AgeProofView(View):
     def post(self, request):
@@ -18,8 +17,7 @@ class AgeProofView(View):
 
         print("endpoint got data", data)
 
-
-        # TODO: get verification result from an external verifier
+        # TODO: get the actual verification result from the verification server
         verification_success = True # or False
 
         if not verification_success:
@@ -30,8 +28,7 @@ class AgeProofView(View):
             response = HttpResponse("Verification successful")
             response.set_cookie(COOKIE_NAME, uuid4, max_age=TOKEN_LIFETIME)
             
-            ret = TokenDB(uuid=uuid4, expiration_unixtime=int(time.time()) + TOKEN_LIFETIME).save()
-            print("TokenDB returned after save", ret)
+            Token.objects.create(uuid=uuid4, expiration_unixtime=int(time.time()) + TOKEN_LIFETIME)
 
             return response
 
