@@ -44,8 +44,8 @@ class AgeVerificationMiddleware:
 </head>
 <body>
     <h1>Verify your age</h1>
-    <script>var age_proof_endpoint = """+age_proof_endpoint+"""</script>
-    <script src="/static/age_verification_psehack/main.js"></script>
+    <script>var age_proof_endpoint = '"""+age_proof_endpoint+"""'</script>
+    <script type="module" src="/static/age_verification_psehack/main.js"></script>
 </body>
 </html>
                             """)
