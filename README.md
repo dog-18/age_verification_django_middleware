@@ -1,3 +1,5 @@
+# Important. This project has not been finished. It does not have the intended integration with https://github.com/zk-passport/openpassport/tree/main/sdk due to some errors encountered when creating the browser bundle of the said sdk. 
+
 A Django middleware for verifying the user's age before allowing them access to a resource.
 Developed for the purposes of the PSE Hackathon held in Sep 2024.
 

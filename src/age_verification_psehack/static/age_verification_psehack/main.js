@@ -1,6 +1,7 @@
-//import * as bundleModule from './bundle.web.js';
-//import { AppType } from './bundle.web.js';
-import { OpenPassportQRcode } from '@openpassport/sdk';
+//import * as bundleModule from './bundle.js';
+//window.bundleModule = bundleModule;
+import { AppType } from './bundle.js';
+//import { QRCodeGenerator } from './bundle.js';
 
 // Receive proof data via ws from the mobile app.
 // POST proof data to the /age-proof endpoint
